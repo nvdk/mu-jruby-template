@@ -1,25 +1,15 @@
-# Mu Ruby template
-Template for running Ruby/[Sinatra](http://www.sinatrarb.com/) microservices
+# Mu JRuby template
+Template for running Ruby/[Sinatra](http://www.sinatrarb.com/) microservices. This template uses jruby which has different performance characteristics.
 
 ## Using the template
-Extend the `semtech/mu-ruby-template` and set a maintainer. That's it.
+Extend the `nvdk/mu-jruby-template`. That's it.
 
 Configure your entrypoint through the environment variable `APP_ENTRYPOINT` (default: `web.rb`). You can use the Gemfile as you would expect.
 
 ### Example Dockerfile
 
-    FROM semtech/mu-ruby-template:2.10.0
-    LABEL maintainer="erika.pauwels@gmail.com"
-    # ONBUILD of mu-ruby-template takes care of everything
-
-### Versions
-The following versions of the mu-ruby-template are available:
-* `2.10.0`; `2.10.0-ruby2.5`
-* `2.9.0` ; `2.9.0-ruby2.5`
-* `2.8.0` ; `2.8.0-ruby2.5`
-* `2.7.0` ; `2.7.0-ruby2.5`
-* `2.6.0` ; `2.6.0-ruby2.3`
-* `1.3.1-ruby2.1`
+    FROM nvdk/mu-jruby-template:1.0.0
+    # ONBUILD of mu-jruby-template takes care of everything
 
 ## Configuration
 
@@ -34,17 +24,6 @@ The template supports the following environment variables:
 - `LOG_LEVEL`: the level of logging (default: `info`, values: `debug`, `info`, `warn`, `error`, `fatal`).
 
 ## Developing with the template
-Livereload is enabled automatically when running in development mode.  You can embed the template easily in a running mu.semte.ch stack by launching it in the `docker-compose.yml` with the correct links.  If desired, pry and Better Errors can be used during development, giving advanced ruby debugging features.
-
-### Live reload
-When developing, you can use the template image, mount the volume with your sources in `/app` and add a link to the database. Set the `RACK_ENV` environment variable to `development`. The service will live-reload on changes. You'll need to restart the container when you define additional dependencies in your `Gemfile`.
-
-    docker run --link virtuoso:database \
-           -v `pwd`:/app \
-           -p 8888:80 \
-           -e RACK_ENV=development \
-           --name my-js-test \
-           semtech/mu-ruby-template:2.10.0
 
 ### Develop in mu.semte.ch stack
 When developing inside an existing mu.semte.ch stack, it is easiest to set the development mode and mount the sources directly.  This makes it easy to setup links to the database and the dispatcher.
@@ -52,7 +31,7 @@ When developing inside an existing mu.semte.ch stack, it is easiest to set the d
 Optionally, you can publish the microservice on a different port, so you can access it directly without the dispatcher.  In the example below, port 8888 is used to access the service directly.  We set the path to our sources directly, ensuring we can develop the microservice in its original place.
 
     yourMicroserviceName:
-      image: semtech/mu-ruby-template:2.10.0
+      image: semtech/mu-jruby-template:1.0.0
       ports:
         - 8888:80
       environment:
